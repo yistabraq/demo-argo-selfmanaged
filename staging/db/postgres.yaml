@@ -1,0 +1,23 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: acid-minimal-cluster
+spec:
+  teamId: "acid"
+  volume:
+    size: 10Gi
+    storageClass: openebs-hostpath
+  numberOfInstances: 3
+  users:
+    kura:  # database owner
+    - superuser
+    - createdb
+  databases:
+    kpay: kura  # dbname: owner
+  preparedDatabases:
+    bar: {}
+  postgresql:
+    version: "16"
+  enableMasterLoadBalancer: true
+  allowedSourceRanges:  # load balancers' source ranges for both master and replica services
+  - 0.0.0.0/0
